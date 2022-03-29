@@ -1,5 +1,8 @@
 import React, {useState} from 'react'
 import axios from 'axios';
+export const instance = axios.create({
+    baseURL: "https://noteapp-vs.herokuapp.com",
+  });
 
 export default function Login({setIsLogin}) {
     const [user, setUser] = useState({name: '',email: '',password: '' })
@@ -14,7 +17,7 @@ export default function Login({setIsLogin}) {
     const registerSubmit = async e =>{
         e.preventDefault()
         try {
-            const res = await axios.post('/users/register',{
+            const res = await instance.post('/users/register',{
                 username: user.name,
                 email: user.email,
                 password: user.password
@@ -29,7 +32,7 @@ export default function Login({setIsLogin}) {
     const loginSubmit = async e =>{
         e.preventDefault()
         try {
-            const res = await axios.post('/users/login',{
+            const res = await instance.post('/users/login',{
                 email: user.email,
                 password: user.password
             })

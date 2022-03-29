@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import {instance}from "../Login.js"
 
 export default function CreateNote() {
   const [note, setNote] = useState({
@@ -27,7 +27,7 @@ export default function CreateNote() {
           date,
         };
 
-        await axios.post("/api/notes", newNote, {
+        await instance.post("/api/notes", newNote, {
           headers: { Authorization: token },
         });
 

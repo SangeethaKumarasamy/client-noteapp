@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { instance } from "../Login.js";
 
-export default function EditNote({ match }) {
+export default function EditNote() {
   const [note, setNote] = useState({
     title: "",
     content: "",
@@ -10,12 +10,13 @@ export default function EditNote({ match }) {
     id: "",
   });
   const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
     const getNote = async () => {
       const token = localStorage.getItem("tokenStore");
-      if (match.params.id) {
-        const res = await axios.get(`/api/notes/${match.params.id}`, {
+      if (id) {
+        const res = await instance.get(`/api/notes/${id}`, {
           headers: { Authorization: token },
         });
         setNote({
@@ -27,7 +28,7 @@ export default function EditNote({ match }) {
       }
     };
     getNote();
-  }, [match.params.id]);
+  }, [id]);
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -46,7 +47,7 @@ export default function EditNote({ match }) {
           date,
         };
 
-        await axios.put(`/api/notes/${id}`, newNote, {
+        await instance.put(`/api/notes/${id}`, newNote, {
           headers: { Authorization: token },
         });
 
